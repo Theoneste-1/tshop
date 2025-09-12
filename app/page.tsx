@@ -8,8 +8,9 @@ import { ProductGrid } from "@/components/product-grid"
 import { Sidebar } from "@/components/sidebar"
 import { products, type Product } from "@/lib/products"
 import { addToCart, getCartItemsCount } from "@/lib/cart"
-
+import { useRouter } from 'nextjs-toploader/app';
 export default function HomePage() {
+  const router = useRouter()
   const [searchQuery, setSearchQuery] = useState("")
   const [selectedCategory, setSelectedCategory] = useState("All")
   const [selectedLocation, setSelectedLocation] = useState("All")
@@ -42,7 +43,7 @@ export default function HomePage() {
   }
 
   const handleCartClick = () => {
-    window.location.href = "/cart"
+    router.push("/cart")
   }
 
   return (

@@ -18,7 +18,8 @@ export function Header({ cartItemsCount = 0, onCartClick }: HeaderProps) {
     // Check if user is logged in
     const userData = localStorage.getItem("user")
     if (userData) {
-      setUser(JSON.parse(userData))
+      // setUser(JSON.parse(userData))
+      setUser({name: "Theonest", email:"theodufi.rw"})
     }
   }, [])
 

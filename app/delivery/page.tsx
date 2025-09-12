@@ -29,7 +29,7 @@ export default function DeliveryPage() {
       window.location.href = "/login"
       return
     }
-    setUser(JSON.parse(userData))
+    setUser({ name: "Theonest", email: "theodufi.rw" })
 
     // Load orders
     const savedOrders = localStorage.getItem("orders")
