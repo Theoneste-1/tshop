@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Header } from "@/components/header"
 import { User, Mail, Phone, MapPin, Edit2, Save, X } from "lucide-react"
+import { useRouter } from "nextjs-toploader/app"
 
 interface UserData {
   name: string
@@ -15,6 +16,7 @@ interface UserData {
 }
 
 export default function ProfilePage() {
+  const router = useRouter()
   const [user, setUser] = useState<UserData | null>(null)
   const [isEditing, setIsEditing] = useState(false)
   const [editData, setEditData] = useState<UserData>({
@@ -38,7 +40,7 @@ export default function ProfilePage() {
       })
     } else {
       // Redirect to login if not authenticated
-      window.location.href = "/login"
+      router.push("/login")
     }
   }, [])
 
@@ -54,7 +56,7 @@ export default function ProfilePage() {
 
   const handleLogout = () => {
     localStorage.removeItem("user")
-    window.location.href = "/"
+    router.push("/")
   }
 
   if (!user) {

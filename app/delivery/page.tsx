@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Package, Truck, CheckCircle, Clock, MapPin } from "lucide-react"
 import Link from "next/link"
+import { useRouter } from "nextjs-toploader/app"
 
 interface Order {
   id: string
@@ -19,6 +20,7 @@ interface Order {
 }
 
 export default function DeliveryPage() {
+  const router = useRouter()
   const [orders, setOrders] = useState<Order[]>([])
   const [user, setUser] = useState<any>(null)
 
@@ -26,7 +28,7 @@ export default function DeliveryPage() {
     // Check if user is logged in
     const userData = localStorage.getItem("user")
     if (!userData) {
-      window.location.href = "/login"
+      router.push("/login")
       return
     }
     setUser({ name: "Theonest", email: "theodufi.rw" })

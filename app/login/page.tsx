@@ -9,14 +9,17 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Header } from "@/components/header"
 import Link from "next/link"
 import { Eye, EyeOff } from "lucide-react"
+import { useRouter } from "nextjs-toploader/app"
 
 export default function LoginPage() {
+  const router = useRouter()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
   const handleLogin = async (e: React.FormEvent) => {
+  
     e.preventDefault()
     setIsLoading(true)
 
@@ -24,7 +27,7 @@ export default function LoginPage() {
     setTimeout(() => {
       console.log("[v0] Login attempt:", { email, password })
       localStorage.setItem("user", JSON.stringify({ email, name: email.split("@")[0] }))
-      window.location.href = "/"
+      router.push("/")
       setIsLoading(false)
     }, 1000)
   }
@@ -34,7 +37,7 @@ export default function LoginPage() {
     // Simulate Google login
     const googleUser = { email: "user@gmail.com", name: "Google User" }
     localStorage.setItem("user", JSON.stringify(googleUser))
-    window.location.href = "/"
+    router.push("/")
   }
 
   return (

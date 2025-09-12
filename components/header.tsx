@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useState, useEffect } from "react"
 import Link from "next/link"
+import {useRouter} from 'nextjs-toploader/app'
 
 interface HeaderProps {
   cartItemsCount?: number
@@ -12,6 +13,7 @@ interface HeaderProps {
 }
 
 export function Header({ cartItemsCount = 0, onCartClick }: HeaderProps) {
+  const router = useRouter();
   const [user, setUser] = useState<{ name: string; email: string } | null>(null)
 
   useEffect(() => {
@@ -25,9 +27,9 @@ export function Header({ cartItemsCount = 0, onCartClick }: HeaderProps) {
 
   const handleAccountClick = () => {
     if (user) {
-      window.location.href = "/profile"
+      router.push("/profile")
     } else {
-      window.location.href = "/login"
+     router.push("login")
     }
   }
 

@@ -9,8 +9,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Header } from "@/components/header"
 import Link from "next/link"
 import { Eye, EyeOff } from "lucide-react"
+import { useRouter } from "nextjs-toploader/app"
 
 export default function SignupPage() {
+  const router = useRouter()
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -41,7 +43,7 @@ export default function SignupPage() {
           name: formData.name,
         }),
       )
-      window.location.href = "/"
+      router.push('/')
       setIsLoading(false)
     }, 1000)
   }
@@ -51,7 +53,7 @@ export default function SignupPage() {
     // Simulate Google signup
     const googleUser = { email: "user@gmail.com", name: "Google User" }
     localStorage.setItem("user", JSON.stringify(googleUser))
-    window.location.href = "/"
+    router.push("/")
   }
 
   return (

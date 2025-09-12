@@ -8,8 +8,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { MapPin, CreditCard, CheckCircle } from "lucide-react"
 import { getCart, clearCart, type CartItem } from "@/lib/cart"
 import Link from "next/link"
+import { useRouter } from "nextjs-toploader/app"
 
 export default function CheckoutPage() {
+  const router = useRouter()
   const [cartItems, setCartItems] = useState<CartItem[]>([])
   const [step, setStep] = useState(1) // 1: Address, 2: Payment, 3: Confirmation
   const [orderPlaced, setOrderPlaced] = useState(false)
@@ -34,7 +36,7 @@ export default function CheckoutPage() {
   useEffect(() => {
     const cart = getCart()
     if (cart.length === 0) {
-      window.location.href = "/cart"
+      router.push("/cart")
     }
     setCartItems(cart)
 
