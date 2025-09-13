@@ -29,12 +29,8 @@ export default function LoginPage() {
    }
   }
 
-  const handleGoogleLogin = () => {
-    console.log("[v0] Google login clicked")
-    // Simulate Google login
-    const googleUser = { email: "user@gmail.com", name: "Google User" }
-    localStorage.setItem("user", JSON.stringify(googleUser))
-    router.push("/")
+   const handleGoogleLogin = () => {
+    router.push(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/oauth2/authorize/google`);
   }
 
   return (
