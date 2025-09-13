@@ -1,10 +1,4 @@
-import {
-  BaseQueryFn,
-  createApi,
-  FetchArgs,
-  fetchBaseQuery,
-  FetchBaseQueryError,
-} from "@reduxjs/toolkit/query";
+
 import { Mutex } from "async-mutex";
 
 import {
@@ -15,6 +9,13 @@ import {
   getUserData,
 } from "./auth/authUtils";
 import { TokenResponse } from "@/types/auth/auth.dto";
+import {
+  createApi,
+  fetchBaseQuery,
+  FetchBaseQueryError,
+} from '@reduxjs/toolkit/query/react';
+
+import { BaseQueryFn, FetchArgs } from "@reduxjs/toolkit/query";
 
 const mutex = new Mutex();
 const baseQuery = fetchBaseQuery({

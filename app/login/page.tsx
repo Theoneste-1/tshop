@@ -10,8 +10,10 @@ import { Header } from "@/components/header"
 import Link from "next/link"
 import { Eye, EyeOff } from "lucide-react"
 import { useRouter } from "nextjs-toploader/app"
+import { useLoginFlow } from "@/features/auth/useAuth"
 
 export default function LoginPage() {
+  const {handleSignIn} = useLoginFlow()
   const router = useRouter()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
@@ -19,17 +21,12 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false)
 
   const handleLogin = async (e: React.FormEvent) => {
-  
-    e.preventDefault()
-    setIsLoading(true)
-
-    // Simulate login process
-    setTimeout(() => {
-      console.log("[v0] Login attempt:", { email, password })
-      localStorage.setItem("user", JSON.stringify({ email, name: email.split("@")[0] }))
-      router.push("/")
-      setIsLoading(false)
-    }, 1000)
+   e.preventDefault()
+   try {
+    
+   } catch (error) {
+    
+   }
   }
 
   const handleGoogleLogin = () => {

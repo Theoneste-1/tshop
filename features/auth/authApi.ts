@@ -1,7 +1,14 @@
-import { baseApi } from '@/features/rtk';
-import { ForgetPasswordRequest, LoginRequestDto, RefreshTokenRequest, ResetPasswordRequest, SignupRequest, TokenResponse } from '@/types/auth/auth.dto';
+import { baseApi } from "@/features/rtk";
+import {
+  ForgetPasswordRequest,
+  LoginRequestDto,
+  RefreshTokenRequest,
+  ResetPasswordRequest,
+  SignupRequest,
+  TokenResponse,
+} from "@/types/auth/auth.dto";
 const _enhancedAuthApi = baseApi.enhanceEndpoints({
-  addTagTypes: ['Auth'],
+  addTagTypes: ["Auth"],
 });
 
 // Inject endpoints into the base API
@@ -9,34 +16,34 @@ export const authApi = _enhancedAuthApi.injectEndpoints({
   endpoints: (builder) => ({
     signIn: builder.mutation<any, LoginRequestDto>({
       query: (credentials) => ({
-        url: '/auth/login',
-        method: 'POST',
+        url: "/auth/login",
+        method: "POST",
         body: credentials,
       }),
-      invalidatesTags: ['Auth'],
-    }),
-    
-    signUp: builder.mutation<any, SignupRequest>({
-      query: (data: any) => ({
-        url: '/auth',
-        method: 'POST',
-        body: data,
-      }),
-      invalidatesTags: ['Auth'],
+      invalidatesTags: ["Auth"],
     }),
 
-    forgetPassword: builder.mutation<any,ForgetPasswordRequest>({
+    signUp: builder.mutation<any, SignupRequest>({
+      query: (data: any) => ({
+        url: "/auth",
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["Auth"],
+    }),
+
+    forgetPassword: builder.mutation<any, ForgetPasswordRequest>({
       query: (data) => ({
-        url: '/auth/forget-password',
-        method: 'POST',
+        url: "/auth/forget-password",
+        method: "POST",
         body: data,
       }),
     }),
 
     resetPassword: builder.mutation<any, ResetPasswordRequest>({
       query: (data) => ({
-        url: '/auth/reset-password',
-        method: 'PUT',
+        url: "/auth/reset-password",
+        method: "PUT",
         body: {
           token: data.token,
           email: data.email,
@@ -47,17 +54,24 @@ export const authApi = _enhancedAuthApi.injectEndpoints({
 
     refreshToken: builder.mutation<TokenResponse, RefreshTokenRequest>({
       query: (data) => ({
-        url: '/auth/refresh-token',
-        method: 'POST',
+        url: "/auth/refresh-token",
+        method: "POST",
         body: data,
       }),
     }),
     logout: builder.mutation<void, void>({
       query: () => ({
-        url: '/auth/logout',
-        method: 'POST',
+        url: "/auth/logout",
+        method: "POST",
       }),
-      invalidatesTags: ['Auth'],
+      invalidatesTags: ["Auth"],
+    }),
+    changePassword: builder.mutation<any, any>({
+      query: (data) => ({
+        url: "/auth/change-password",
+        method: "PUT",
+        body: data,
+      }),
     }),
   }),
   overrideExisting: false,
@@ -65,13 +79,11 @@ export const authApi = _enhancedAuthApi.injectEndpoints({
 
 // Export hooks for usage in functional components
 export const {
-  // useSignInMutation,
-  // useSignUpMutation,
-  // useVerifyOtpMutation,
-  // useForgetPasswordMutation,
-  // useResetPasswordMutation,
-  // useRefreshTokenMutation,
-  // useConfirmEmailMutation,
-  // useLogoutMutation,
-  // useChangeTemporaryPasswordMutation,
+  useSignInMutation,
+  useSignUpMutation,
+  useForgetPasswordMutation,
+  useLogoutMutation,
+  useResetPasswordMutation,
+  useRefreshTokenMutation,
+  useChangePasswordMutation,
 } = authApi;

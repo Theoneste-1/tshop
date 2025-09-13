@@ -2,14 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'nextjs-toploader/app';
-import {
-  useSignInMutation,
-  useVerifyOtpMutation,
-  useForgetPasswordMutation,
-  useResetPasswordMutation,
-  useRefreshTokenMutation,
-  useChangeTemporaryPasswordMutation,
-} from './authApi';
+
 import {
   saveTokens,
   getRefreshToken,
@@ -25,20 +18,19 @@ import {
 import { useAuth } from './AuthContext';
 import { Router } from 'lucide-react';
 import { requestFormReset } from 'react-dom';
+import { useForgetPasswordMutation, useRefreshTokenMutation, useResetPasswordMutation, useSignInMutation } from './authApi';
 
 export const useLoginFlow = () => {
   const [password, setPassword] = useState('');
   const [otp, setOtp] = useState('');
   const [signIn, { isLoading: isSigningIn, error: signInError }] = useSignInMutation();
-  const [verifyOtp, { isLoading: isVerifying, error: verifyError }] =
-    useVerifyOtpMutation();
   const router = useRouter();
   const { login } = useAuth();
 
   // Step 1: Sign in with email and password
   const handleSignIn = async (email: string, password: string) => {
     try {
-      const response = await signIn({ email, password }).unwrap();
+      const response = await signIn({ usernameOrEmail: email, password }).unwrap();
       saveCredentials(email, password);
       router.push(`/auth/verification`);
       return response;
@@ -47,37 +39,7 @@ export const useLoginFlow = () => {
     }
   };
 
-  // Step 2: Verify OTP
-  const handleVerifyOtp = async (otpCode: string, email: string) => {
-    try {
-      const response = await verifyOtp({ email, otp: otpCode }).unwrap();
-
-      if (response.isInitialPassword) {
-        saveIsInitialPassword(response.isInitialPassword);
-      } else {
-        clearCredentials();
-      }
-
-      // Update auth state
-      login(
-        {
-          role_name: response.user.role?.role_name,
-          role_id: response.user.role.role_id,
-        },
-        response.user,
-        {
-          accessToken: response.accessToken,
-          refreshToken: response.refreshToken,
-        },
-      );
-
-      router.push('/');
-      return response;
-    } catch (error) {
-      console.error('Failed to verify OTP:', error);
-      throw error;
-    }
-  };
+  
   const handleLogout = () => {
     router.refresh();
     clearTokens();
@@ -93,11 +55,8 @@ export const useLoginFlow = () => {
     otp,
     setOtp,
     handleSignIn,
-    handleVerifyOtp,
     isSigningIn,
-    isVerifying,
     signInError,
-    verifyError,
     handleLogout,
   };
 };
@@ -195,40 +154,5 @@ export const useTokenRefresh = () => {
     handleRefreshToken,
     isLoading,
     error,
-  };
-};
-
-export const useChangeTemporaryPassword = () => {
-  const [
-    changeTemporaryPassword,
-    { isLoading: isChangeTemporaryPasswordLoading, error: changeTemporaryPasswordError },
-  ] = useChangeTemporaryPasswordMutation();
-  const router = useRouter();
-
-  const handleChangeTemporaryPassword = async (
-    email: string,
-    temporaryPassword: string,
-    newPassword: string,
-  ) => {
-    try {
-      const response = await changeTemporaryPassword({
-        email,
-        temporaryPassword,
-        newPassword,
-      }).unwrap();
-      clearIsInitialPassword();
-      router.replace('/');
-      return response;
-    } catch (error) {
-      console.error('Failed to change temporary password:', error);
-      throw error;
-    }
-  };
-
-  return {
-    changeTemporaryPassword,
-    isChangeTemporaryPasswordLoading,
-    changeTemporaryPasswordError,
-    handleChangeTemporaryPassword,
   };
 };
